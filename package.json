@@ -1,0 +1,19 @@
+{
+  "name": "isaac-mqtt-data-saver",
+  "version": "1.0.0",
+  "description": "ISAAC-mqtt-data-saver",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s3-db01/ISAAC-mqtt-data-saver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s3-db01/ISAAC-mqtt-data-saver/issues"
+  },
+  "homepage": "https://github.com/s3-db01/ISAAC-mqtt-data-saver#readme"
+}
