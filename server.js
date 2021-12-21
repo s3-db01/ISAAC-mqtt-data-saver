@@ -28,7 +28,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
 
-const url = 'ws://localhost:2020'
+const url = 'ws://ISAAC-mqtt-server:2020'
 const connection = new WebSocket(url)
 
 connection.onopen = () => {
