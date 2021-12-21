@@ -42,31 +42,38 @@ connection.onerror = (error) => {
 connection.onmessage = (e) => {
     const data = JSON.parse(e.data);
 
-    const response = axios
-        .get('http://localhost:3001/api/sensors/'+data.sensordata[0]["x-coord"]+'-'+data.sensordata[0]["y-coord"])
-        .catch((error) => {
-            console.error(error)
-        })
-
-    if (response.length === 0) {
-        axios
-            .post('http://localhost:3001/api/sensors', {
-                floor_id: 1,
-                x_coordinate: data.sensordata[0]["x-coord"],
-                y_coordinate: data.sensordata[0]["y-coord"],
-                flagged_faulty: false
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    }
-
     axios
-        .post('http://localhost:3002/api/sensorlogs', {
-            sensor_id: data.sensordata[0]["x-coord"] + "-" + data.sensordata[0]["y-coord"],
-            humidity: data.sensordata[0]["temperature"],
-            temperature: data.sensordata[0]["humidity"],
-            up_time:  data.sensordata[0]["uptime"]
+        .get('http://localhost:3001/api/sensors/')
+        .then(res => {
+
+            const sensor = res.data.find( ({ x_coordinate, y_coordinate }) => x_coordinate === data.sensordata[0]["x-coord"] && y_coordinate === data.sensordata[0]["y-coord"])
+
+            if (sensor === undefined) {
+                console.log("SENSOR:   " + data.sensordata[0]["x-coord"] +"-"+ data.sensordata[0]["y-coord"]);
+
+                axios
+                    .post('http://localhost:3001/api/sensors', {
+                        floor_id: 1,
+                        x_coordinate: data.sensordata[0]["x-coord"],
+                        y_coordinate: data.sensordata[0]["y-coord"],
+                        flagged_faulty: null
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            }
+
+            axios
+                .post('http://localhost:3002/api/sensorlogs', {
+                    x_coordinate : data.sensordata[0]["x-coord"],
+                    y_coordinate : data.sensordata[0]["y-coord"],
+                    humidity: data.sensordata[0]["humidity"],
+                    temperature: data.sensordata[0]["temperature"],
+                    up_time:  data.sensordata[0]["uptime"],
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
         })
         .catch((error) => {
             console.error(error)
